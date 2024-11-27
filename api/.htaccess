@@ -1,0 +1,5 @@
+SetEnv SECRET "0da8b959a2334a945d2445ae1bf921f8cfa6224373a8409268631b1f7e31b475"
+RewriteEngine on
+Header set Access-Control-Allow-Origin "*"
+RewriteCond %{REQUEST_URI} !^/test\.php$
+RewriteRule ^(.*)$ api.php [L]
