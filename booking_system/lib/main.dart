@@ -1,10 +1,10 @@
-import 'package:booking_system/breadcrumbNav.dart';
+import 'package:booking_system/navigation/breadcrumbNav.dart';
 import 'package:booking_system/models/token_storage.dart';
 import 'package:booking_system/services/auth_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
-import 'router.dart';
+import 'navigation/router.dart';
 import 'src/authentication/services/authenticate_user.dart';
 import 'src/home/screens/home_screen.dart';
 

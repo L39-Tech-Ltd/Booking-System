@@ -1,8 +1,9 @@
-import 'package:booking_system/breadcrumbNav.dart';
+import 'package:booking_system/navigation/breadcrumbNav.dart';
+import 'package:booking_system/navigation/routeItem.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../src/authentication/services/authenticate_user.dart';
-import 'package:booking_system/router.dart';
+import 'package:booking_system/navigation/router.dart';
 
 class Header extends StatelessWidget implements PreferredSizeWidget{
   final String title;
@@ -14,20 +15,21 @@ class Header extends StatelessWidget implements PreferredSizeWidget{
     final authUser = Provider.of<AuthenticateUser>(context);
     final breadcrumbNavigator = Provider.of<BreadcrumbNavigator>(context);
     
-    List<String> routesText = breadcrumbNavigator.routeStack;
-    List<String> routes = routesText.map(getRouteFromName).toList();
+    List<RouteItem> routes = breadcrumbNavigator.routeStack;
+    //List<String> routesText = ['test'];//breadcrumbNavigator.routeStack;
+    //List<String> routes = ['test'];//routesText.map(getRouteFromName).toList();
 
-    print(routesText);
-    print(routes);
+    //print(routes2);
+    //print(routes);
 
     List<Widget> breadcrumbNavStack = List.generate(routes.length * 2 -1, (index){
       if (index.isEven){
         int buttonIndex = index ~/ 2;
         return TextButton(
           onPressed: () {
-            Navigator.popUntil(context, ModalRoute.withName(routes[buttonIndex]));
+            Navigator.popUntil(context, ModalRoute.withName(routes[buttonIndex].routeSettings.name ?? 'Unknown'));
           },
-          child: Text(routesText[buttonIndex]),
+          child: Text(routes[buttonIndex].name),
         );
       } else {
         return Text(' > ');

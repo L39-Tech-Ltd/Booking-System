@@ -2,14 +2,14 @@ import 'package:booking_system/models/business_data.dart';
 import 'package:booking_system/src/user_dashboard/screens/user_dashboard_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'src/authentication/screens/login_screen.dart';
-import 'src/authentication/screens/sign_up_screen.dart';
+import '../src/authentication/screens/login_screen.dart';
+import '../src/authentication/screens/sign_up_screen.dart';
 
-import 'src/home/screens/home_screen.dart';
-import 'src/search/screens/search_screen.dart';
-import 'src/profile/screens/profile_screen.dart';
-import 'src/business/screens/business_dashboard.dart';
-import 'src/bookings/screens/create_bookings.dart';
+import '../src/home/screens/home_screen.dart';
+import '../src/search/screens/search_screen.dart';
+import '../src/profile/screens/profile_screen.dart';
+import '../src/business/screens/business_dashboard.dart';
+import '../src/bookings/screens/create_bookings.dart';
 
 final Map<String, String> routeNameMap = {
   '/': 'Home',
@@ -77,8 +77,7 @@ Route<dynamic> generateRoute(RouteSettings settings, isAuthenticated){
         builder: (context) => isAuthenticated 
         ? BusinessDashboard(businessData: businessData) 
         : LoginScreen(),
-        settings: settings
-        //RouteSettings(name: settings.name),
+        settings: RouteSettings(name: settings.name, arguments: settings.arguments), //settings
       );
 
     case '/CreateBookings':

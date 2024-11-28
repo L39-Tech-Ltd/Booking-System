@@ -1,28 +1,33 @@
 
 import 'package:booking_system/models/business_data.dart';
+import 'package:booking_system/navigation/routeItem.dart';
 import 'package:flutter/material.dart';
 
 class BreadcrumbNavigator extends NavigatorObserver with ChangeNotifier{
-  List<String> _routeStack = [];
+  List<RouteItem> _routeStack = [];
+
   final Map<String, String> routeNameMap;
 
   BreadcrumbNavigator(this.routeNameMap);
 
-  String _getReadableName(Route<dynamic> route){
+  RouteItem _getRouteItem(Route<dynamic> route){
     final settings = route.settings;
-    final String? baseName = routeNameMap[route.settings.name] ?? route.settings.name ?? 'Unknown';
+    final String settingsName = settings.name ?? "Unknown";
+
+    String baseName = routeNameMap[settings.name] ?? settings.name ?? 'Unknown';
 
     if(settings.arguments is BusinessData){
       final businessData = settings.arguments as BusinessData;
-      return businessData.name ?? "Business Name";
+      baseName = businessData.name ?? "Business Name";
+      return RouteItem(baseName, settingsName, arguments: businessData);
     }
 
-    return baseName!;
+    return RouteItem(baseName, settingsName);
   }
 
-  List<String> get routeStack => List.unmodifiable(_routeStack);
+  List<RouteItem> get routeStack => List.unmodifiable(_routeStack);
 
-  void addRoute(String route) {
+  void addRoute(RouteItem route) {
     _routeStack.add(route);
     notifyListeners();
     //print(_routeStack);
@@ -44,7 +49,7 @@ class BreadcrumbNavigator extends NavigatorObserver with ChangeNotifier{
   @override
   void didPush(Route route, Route? previousRoute) {
     super.didPush(route, previousRoute);
-    addRoute(_getReadableName(route));
+    addRoute(_getRouteItem(route));
   }
 
   @override
@@ -68,7 +73,7 @@ class BreadcrumbNavigator extends NavigatorObserver with ChangeNotifier{
       resetRoute();
     }
     if (newRoute != null) {
-      addRoute(_getReadableName(newRoute));
+      addRoute(_getRouteItem(newRoute));
     }
   }
 
